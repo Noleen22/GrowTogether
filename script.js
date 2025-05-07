@@ -1,61 +1,86 @@
-let albums = [];
-let currentAlbum = 'nature';
 let imageCount = 0;
 let healthDays = 0;
 let lastUpload = new Date();
+let isDarkMode = false;
+let currentAlbum = '';
+let albums = [];
 let coins = 0;
 let hasPet = false;
 let petType = '';
-let isDarkMode = false;
 
-document.addEventListener("DOMContentLoaded", () => {
-  updateAlbumVisibility();
-  updateCharacter();
-  setInterval(updateCharacter, 1000 * 60 * 60 * 6);
-});
-
-function updateAlbumVisibility() {
-  const albumSelect = document.getElementById('albumSelect');
-  const firstAlbumPrompt = document.getElementById('firstAlbumPrompt');
-  albumSelect.innerHTML = '';
-
-  if (albums.length > 0) {
-    firstAlbumPrompt.style.display = 'none';
-    albumSelect.style.display = 'block';
-
-    albums.forEach(album => {
-      const option = document.createElement('option');
-      option.value = album;
-      option.textContent = album;
-      albumSelect.appendChild(option);
-    });
-
-    const newOption = document.createElement('option');
-    newOption.value = 'new';
-    newOption.textContent = '+ Neues Album';
-    albumSelect.appendChild(newOption);
-  } else {
-    albumSelect.style.display = 'none';
-    firstAlbumPrompt.style.display = 'block';
-  }
+function toggleTheme() {
+  isDarkMode = !isDarkMode;
+  document.body.classList.toggle('dark-mode', isDarkMode);
+  document.getElementById('themeButton').innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
 }
 
-function createAlbum() {
-  const newAlbumInput = document.getElementById('newAlbumName');
-  const treeTypeSelect = document.getElementById('treeType');
-  const newAlbumName = newAlbumInput.value.trim();
-  const treeType = treeTypeSelect.value;
+function updateCharacter() {
+  const tree = document.getElementById('tree');
+  if (!tree) return;
 
-  if (newAlbumName && !albums.includes(newAlbumName)) {
-    albums.push(newAlbumName);
-    currentAlbum = treeType;
-    newAlbumInput.value = '';
-    document.querySelector('.new-album').style.display = 'none';
-    updateAlbumVisibility();
-    updateCharacter();
-    alert(`Album "${newAlbumName}" mit Baumtyp "${treeType}" erstellt!`);
+  const daysSince = Math.floor((new Date() - lastUpload) / (1000 * 60 * 60 * 24));
+  const scale = Math.min(1.4, 0.6 + (imageCount * 0.1));
+  const rotate = Math.sin(Date.now() / 3000) * 1.5;
+
+  let svg = '';
+
+  switch (currentAlbum) {
+    case 'pine':
+      svg = `<path d="M48,120 L52,120 L50,40" fill="#795548"/><path d="M30,90 L50,30 L70,90" fill="#1565C0"/>`;
+      break;
+    case 'oak':
+      svg = `<path d="M48,120 L52,120 L50,40" fill="#795548"/><circle cx="50" cy="40" r="30" fill="#1565C0"/>`;
+      break;
+    case 'cherry':
+      svg = `<path d="M48,120 L52,120 L50,40" fill="#795548"/><circle cx="50" cy="40" r="25" fill="#64B5F6"/><circle cx="45" cy="30" r="3" fill="#E91E63"/>`;
+      break;
+    case 'maple':
+      svg = `<path d="M48,120 L52,120 L50,40" fill="#795548"/><path d="M30,40 L70,40 L50,10 Z" fill="#1565C0"/>`;
+      break;
+    case 'archer':
+      svg = `<path d="M45,120 L55,120 L52,70 L48,70 Z" fill="#228B22"/><circle cx="50" cy="55" r="15" fill="#90EE90"/>`;
+      break;
+    case 'wizard':
+      svg = `<path d="M45,120 L55,120 L52,70 L48,70 Z" fill="#4527A0"/><circle cx="50" cy="55" r="15" fill="#7B1FA2"/>`;
+      break;
+    default:
+      svg = `<path d="M48,120 L52,120 L50,40" fill="#795548"/><path d="M30,40 L70,40 L50,10 Z" fill="#2196F3"/>`;
+  }
+
+  tree.style.backgroundImage = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120">${svg}</svg>')`;
+
+  tree.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+  tree.style.filter = daysSince > 3
+    ? `grayscale(${Math.min(100, daysSince * 20)}%) brightness(${Math.max(0.7, 1 - daysSince * 0.05)})`
+    : 'none';
+
+  document.getElementById('healthDays').textContent = healthDays;
+  document.getElementById('imageCount').textContent = imageCount;
+}
+
+function updateAlbumVisibility() {
+  const select = document.getElementById('albumSelect');
+  const prompt = document.getElementById('firstAlbumPrompt');
+  select.innerHTML = '';
+
+  if (albums.length > 0) {
+    albums.forEach(name => {
+      const opt = document.createElement('option');
+      opt.value = name;
+      opt.textContent = name;
+      select.appendChild(opt);
+    });
+
+    const newOpt = document.createElement('option');
+    newOpt.value = 'new';
+    newOpt.textContent = '+ New Album';
+    select.appendChild(newOpt);
+
+    select.style.display = 'block';
+    prompt.style.display = 'none';
   } else {
-    alert('Bitte gib einen eindeutigen Albumnamen ein!');
+    select.style.display = 'none';
+    prompt.style.display = 'block';
   }
 }
 
@@ -69,66 +94,66 @@ function changeAlbum() {
   }
 }
 
+function createAlbum() {
+  const nameInput = document.getElementById('newAlbumName');
+  const type = document.getElementById('treeType').value;
+  const name = nameInput.value.trim();
+
+  if (!name || albums.includes(name)) {
+    alert("Please enter a unique album name.");
+    return;
+  }
+
+  albums.push(name);
+  currentAlbum = type;
+
+  nameInput.value = '';
+  document.querySelector('.new-album').style.display = 'none';
+
+  updateAlbumVisibility();
+  updateCharacter();
+
+  alert(`Album "${name}" with type "${type}" created!`);
+}
+
 function uploadImage() {
   const input = document.getElementById('imageUpload');
-  if (input.files && input.files[0]) {
-    imageCount++;
-    healthDays++;
-    lastUpload = new Date();
-    coins += 10;
-    updateCharacter();
-    input.value = '';
-  } else {
-    alert('Bitte wähle ein Bild aus!');
+  if (!input.files || !input.files[0]) {
+    alert('Please select an image.');
+    return;
   }
-}
 
-function updateCharacter() {
-  const tree = document.getElementById('tree');
-  const daysSinceUpload = Math.floor((new Date() - lastUpload) / (1000 * 60 * 60 * 24));
-  const scale = Math.min(1.4, 0.6 + (imageCount * 0.1));
-  const rotation = Math.sin(Date.now() / 3000) * 1.5;
+  imageCount++;
+  healthDays++;
+  coins += 10;
+  lastUpload = new Date();
 
-  // Replace this block with your SVG logic per album
-  tree.style.backgroundImage = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" ... ></svg>')`;
-
-  tree.style.filter = daysSinceUpload > 3
-    ? `grayscale(${Math.min(100, daysSinceUpload * 20)}%) brightness(${Math.max(0.7, 1 - (daysSinceUpload * 0.05))})`
-    : 'none';
-
-  tree.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
-
-  document.getElementById('imageCount').textContent = imageCount;
-  document.getElementById('healthDays').textContent = healthDays;
   document.getElementById('coins').textContent = coins;
-}
-
-function toggleTheme() {
-  isDarkMode = !isDarkMode;
-  document.body.classList.toggle('dark-mode');
-  document.getElementById('themeButton').innerHTML = isDarkMode
-    ? '<i class="fas fa-sun"></i>'
-    : '<i class="fas fa-moon"></i>';
+  input.value = '';
+  updateCharacter();
 }
 
 function buyPet(type) {
-  if (coins >= 50 && !hasPet) {
-    coins -= 50;
-    hasPet = true;
-    petType = type;
-    showPet();
-    updateCharacter();
-    alert(`Du hast ein ${type === 'cat' ? 'Kätzchen' : 'Hündchen'} gekauft!`);
-  } else {
-    alert(hasPet ? 'Du hast bereits ein Haustier!' : 'Du brauchst 50 Münzen!');
-  }
+  if (hasPet) return alert("You already have a pet!");
+  if (coins < 50) return alert("You need 50 coins!");
+
+  hasPet = true;
+  coins -= 50;
+  petType = type;
+
+  document.getElementById('coins').textContent = coins;
+  document.getElementById('pet').style.display = 'block';
+
+  const petSVG = type === 'cat'
+    ? `<circle cx="50" cy="50" r="30" fill="%23808080"/><circle cx="35" cy="40" r="5" fill="black"/><circle cx="65" cy="40" r="5" fill="black"/>`
+    : `<circle cx="50" cy="50" r="30" fill="%23A0522D"/><circle cx="35" cy="40" r="5" fill="black"/><circle cx="65" cy="40" r="5" fill="black"/>`;
+
+  document.getElementById('pet').style.backgroundImage =
+    `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">${petSVG}</svg>')`;
+
+  alert(`You bought a ${type}!`);
 }
 
-function showPet() {
-  if (!hasPet) return;
-  const pet = document.getElementById('pet');
-  pet.style.backgroundImage = petType === 'cat'
-    ? "url('data:image/svg+xml;utf8,<svg xmlns=...>...</svg>')"
-    : "url('data:image/svg+xml;utf8,<svg xmlns=...>...</svg>')";
-  pet.style.display = 'block';
-}
+setInterval(updateCharacter, 1000 * 60 * 5);
+updateAlbumVisibility();
+updateCharacter();
