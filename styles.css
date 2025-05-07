@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+/* Root Theme Variables */
+:root {
+  --bg-color: #f0f2f5;
+  --text-color: #2c3e50;
+  --card-bg: white;
+  --primary-color: #2196F3;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+  --bg-color: #000;
+  --text-color: #fff;
+  --card-bg: #1e1e1e;
+  --primary-color: #bb86fc;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Base Styles */
+body {
+  font-family: 'Quicksand', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+button, input, select {
+  font-family: inherit;
+}
+
+/* Theme Button */
+.theme-toggle button {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 10px;
+}
+
+nav {
+  background: var(--card-bg);
+  border-bottom: 1px solid #333;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.container {
+  display: flex;
+  margin-top: 70px;
+  padding: 20px;
+  gap: 20px;
+}
+
+.sidebar {
+  width: 250px;
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  height: fit-content;
+  position: fixed;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 270px;
+}
+
+.album-selector, .category-selector, .new-album {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+select, input[type="text"], input[type="file"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #333;
+  background: var(--card-bg);
+  color: var(--text-color);
+}
+
+.upload-section {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+button {
+  padding: 10px 20px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #1976d2;
+}
+
+.tree-container {
+  height: 400px;
+  margin: 20px 0;
+  position: relative;
+}
+
+#tree {
+  width: 250px;
+  height: 350px;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: bottom;
+}
+
+#pet {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: none;
+}
+
+.stats p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.stats i, .stats span {
+  color: var(--primary-color);
+}
+
+.pet-shop {
+  padding-top: 15px;
+  border-top: 1px solid #333;
+}
+
+.pet-button {
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Dark Mode Specific Tweaks */
+body.dark-mode .sidebar,
+body.dark-mode nav,
+body.dark-mode .upload-section,
+body.dark-mode .tree-container {
+  background: var(--card-bg);
+  border-color: #333;
+}
