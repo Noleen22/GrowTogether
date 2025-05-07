@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baumtagebuch</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script defer src="script.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+  <nav>
+    <div class="logo">Baumtagebuch</div>
+    <div class="profile">
+      <div id="coins">0</div>
+      <div id="themeButton" class="theme-toggle" aria-label="Theme wechseln">
+        <button><i class="fas fa-moon"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <aside class="sidebar">
+      <div class="album-selector">
+        <label for="albumSelect">Album wählen:</label>
+        <select id="albumSelect" onchange="changeAlbum()"></select>
+        <div id="firstAlbumPrompt">Erstelle dein erstes Album!</div>
+      </div>
+
+      <div class="new-album" style="display: none;">
+        <input type="text" id="newAlbumName" placeholder="Albumname"/>
+        <select id="treeType">
+          <option value="oak">Eiche</option>
+          <option value="cherry">Kirschbaum</option>
+          <option value="maple">Ahorn</option>
+          <option value="pine">Kiefer</option>
+          <option value="archer">Bogenschütze</option>
+          <option value="wizard">Zauberer</option>
+        </select>
+        <button onclick="createAlbum()">Erstellen</button>
+      </div>
+
+      <div class="category-selector">
+        <label for="imageUpload">Bild hochladen:</label>
+        <div class="upload-section">
+          <input type="file" id="imageUpload" accept="image/*"/>
+          <button onclick="uploadImage()">Hochladen</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <p><i class="fas fa-leaf"></i> Bilder: <span id="imageCount">0</span></p>
+        <p><i class="fas fa-heartbeat"></i> Gesundheitstage: <span id="healthDays">0</span></p>
+        <p><i class="fas fa-coins"></i> Münzen: <span id="coins">0</span></p>
+      </div>
+
+      <div class="pet-shop">
+        <h3>Haustier kaufen</h3>
+        <button class="pet-button" onclick="buyPet('cat')">Kätzchen (50 Münzen)</button>
+        <button class="pet-button" onclick="buyPet('dog')">Hündchen (50 Münzen)</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <section class="tree-container">
+        <div id="tree" aria-label="Baumcharakter"></div>
+        <div id="pet" aria-label="Haustier"></div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
