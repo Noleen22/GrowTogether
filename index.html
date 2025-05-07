@@ -13,8 +13,10 @@
     <div class="logo">Baumtagebuch</div>
     <div class="profile">
       <div id="coins">0</div>
-      <div id="themeButton" class="theme-toggle" aria-label="Theme wechseln">
-        <button><i class="fas fa-moon"></i></button>
+      <div class="theme-toggle">
+        <button id="themeButton" onclick="toggleTheme()">
+          <i class="fas fa-moon"></i>
+        </button>
       </div>
     </div>
   </nav>
@@ -63,10 +65,13 @@
 
     <main class="main-content">
       <section class="tree-container">
-        <div id="tree" aria-label="Baumcharakter"></div>
-        <div id="pet" aria-label="Haustier"></div>
+        <div class="tree-container">
+          <div id="tree"></div>
+          <div id="pet"></div>
+        </div>
       </section>
     </main>
   </div>
+  <script src="script.js"></script>
 </body>
 </html>
