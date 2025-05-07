@@ -1,77 +1,73 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Baumtagebuch</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script defer src="script.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <meta charset="UTF-8">
+  <title>Tree App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <nav>
-    <div class="logo">Baumtagebuch</div>
+    <div class="logo">Tree App</div>
     <div class="profile">
-      <div id="coins">0</div>
       <div class="theme-toggle">
         <button id="themeButton" onclick="toggleTheme()">
           <i class="fas fa-moon"></i>
         </button>
       </div>
+      <img src="https://i.pravatar.cc/40" class="avatar" alt="Avatar">
     </div>
   </nav>
 
   <div class="container">
-    <aside class="sidebar">
+    <div class="sidebar">
       <div class="album-selector">
-        <label for="albumSelect">Album wählen:</label>
-        <select id="albumSelect" onchange="changeAlbum()"></select>
-        <div id="firstAlbumPrompt">Erstelle dein erstes Album!</div>
+        <label for="albumSelect">Choose Album:</label>
+        <select id="albumSelect" onchange="changeAlbum()" style="display: none;"></select>
+        <div id="firstAlbumPrompt">Create your first album below!</div>
       </div>
 
       <div class="new-album" style="display: none;">
-        <input type="text" id="newAlbumName" placeholder="Albumname"/>
+        <input type="text" id="newAlbumName" placeholder="Album name" />
         <select id="treeType">
-          <option value="oak">Eiche</option>
-          <option value="cherry">Kirschbaum</option>
-          <option value="maple">Ahorn</option>
-          <option value="pine">Kiefer</option>
-          <option value="archer">Bogenschütze</option>
-          <option value="wizard">Zauberer</option>
+          <option value="pine">Pine</option>
+          <option value="oak">Oak</option>
+          <option value="cherry">Cherry</option>
+          <option value="maple">Maple</option>
+          <option value="archer">Archer</option>
+          <option value="wizard">Wizard</option>
         </select>
-        <button onclick="createAlbum()">Erstellen</button>
+        <button onclick="createAlbum()">Create Album</button>
       </div>
 
-      <div class="category-selector">
-        <label for="imageUpload">Bild hochladen:</label>
-        <div class="upload-section">
-          <input type="file" id="imageUpload" accept="image/*"/>
-          <button onclick="uploadImage()">Hochladen</button>
-        </div>
+      <div class="upload-section">
+        <input type="file" id="imageUpload" />
+        <button onclick="uploadImage()">Upload</button>
       </div>
 
       <div class="stats">
-        <p><i class="fas fa-leaf"></i> Bilder: <span id="imageCount">0</span></p>
-        <p><i class="fas fa-heartbeat"></i> Gesundheitstage: <span id="healthDays">0</span></p>
-        <p><i class="fas fa-coins"></i> Münzen: <span id="coins">0</span></p>
+        <p><i class="fas fa-image"></i> Images: <span id="imageCount">0</span></p>
+        <p><i class="fas fa-heart"></i> Healthy Days: <span id="healthDays">0</span></p>
+        <p><i class="fas fa-coins"></i> Coins: <span id="coins">0</span></p>
       </div>
 
       <div class="pet-shop">
-        <h3>Haustier kaufen</h3>
-        <button class="pet-button" onclick="buyPet('cat')">Kätzchen (50 Münzen)</button>
-        <button class="pet-button" onclick="buyPet('dog')">Hündchen (50 Münzen)</button>
+        <h4>Buy a Pet (50 Coins)</h4>
+        <button class="pet-button" onclick="buyPet('cat')">Buy Cat</button>
+        <button class="pet-button" onclick="buyPet('dog')">Buy Dog</button>
       </div>
-    </aside>
+    </div>
 
-    <main class="main-content">
-      <section class="tree-container">
-        <div class="tree-container">
-          <div id="tree"></div>
-          <div id="pet"></div>
-        </div>
-      </section>
-    </main>
+    <div class="main-content">
+      <div class="tree-container">
+        <div id="tree"></div>
+        <div id="pet"></div>
+      </div>
+    </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
