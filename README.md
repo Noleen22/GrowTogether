@@ -27,5 +27,5 @@ Each uploaded photo helps your tree grow. Stay consistent, earn coins, and unloc
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/tree-diary.git
+git clone https://github.com/noleen22/tree-diary.git
 cd tree-diary
